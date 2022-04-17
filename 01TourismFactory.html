@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+
+    <style>
+        /* css 內 會用; */
+        span {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h3>datatable觀光工廠名錄，及用foreach置換資料(見console)</h3>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" id="btn">button</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Striped Rows</h2>
+        <p>The .table-striped class adds zebra-stripes to a table:</p>
+        <table id="table_id" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>area</th>
+                    <th>district</th>
+                    <th>name</th>
+                    <th>address</th>
+                    <th>tel</th>
+                    <th>web</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>john@example.com</td>
+                    <td>john@example.com</td>
+                    <td>john@example.com</td>
+                    <td>john@example.com</td>
+                    <td>john@example.com</td>
+                </tr>
+                <tr>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                    <td>mary@example.com</td>
+                    <td>mary@example.com</td>
+                    <td>mary@example.com</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                    <td>july@example.com</td>
+                    <td>july@example.com</td>
+                    <td>july@example.com</td>
+                    <td>july@example.com</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- 先載入 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+        crossorigin="anonymous"></script>
+    <!-- 先載入 END-->
+    <!-- datatable -->
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+
+
+
+    <script src="./js/data20220127.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            console.log('dataStore', dataStore);
+            console.log('Array.isArray(dataStore)', Array.isArray(dataStore));
+            // ↓↓↓↓如果原物件dataStore的area值為北部
+            // ↓↓↓↓就用用foreach置換為北部12345，並變成新物件newDataStore
+            newDataStore = {};
+            dataStore.forEach((value, key) => {
+                // console.log('value', value);
+                // console.log('key', key);
+                if (value.area == '北部') {
+                    newDataStore[key] = {
+                        id: value.id,
+                        area: '北部12345',
+                        district: value.district,
+                        name: value.name,
+                        address: value.address,
+                        tel: value.tel,
+                        web: value.web
+                    }
+                }
+            });
+            console.log('newDataStore', newDataStore)
+
+            // 用for in置換資料
+            // for (const key in dataStore) {
+            //     if (dataStore[key]['area']=='北部') {
+            //         dataStore[key]['area']='北部55688';                    
+            //     }
+            // }
+
+            // dataStore.forEach(element=>{
+
+            // });
+
+            $('#table_id').DataTable({
+                data: dataStore,
+                columns: [
+                    { data: 'id' },
+                    { data: 'area' },
+                    { data: 'district' },
+                    { data: 'name' },
+                    { data: 'address' },
+                    { data: 'tel' },
+                    { data: 'web' },
+                ]
+            });
+            $('#btn').on('click', function () {
+                // $('#table_id').DataTable();
+
+                console.log('btn ok 0127');
+            });
+        });
+
+
+    </script>
+
+
+</body>
+
+</html>
